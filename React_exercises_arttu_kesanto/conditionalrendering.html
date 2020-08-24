@@ -1,0 +1,40 @@
+<!-- React revision, Arttu K. -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React exercise, Arttu K.</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id="datahere"></div>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">  
+      
+      function Text(props) {
+        //const [text, setText] = React.useState('Lol');
+        //setText('Lollero'); A re-render issue here...
+        console.log(props.text);
+
+        if (props.text.length <= 5) {
+        return (
+          <div>
+                  The word was '{props.text}'. Enjoy.
+          </div>
+        );
+      } else {
+        return (
+          <div>
+                  The word was too long!
+          </div>
+        )
+      } };
+
+      ReactDOM.render(<Text text = 'LOL' />, document.getElementById("datahere"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!-- Fetching repos from GitHub with React. -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React GitHub Assignment</title>
+  </head>
+  <body>
+    <!-- Placement container for react components -->
+    <div id="datahere"></div>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script> <!-- // sources -->
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+      function GetRepos() {
+        const [repos, setRepos] = React.useState([]);
+        const [url, setUrl] = React.useState('https://api.github.com/search/repositories?q=react');
+        const [isWaiting, setState] = React.useState(false);
+        
+        // setUrl('https://opentdb.com/api.php?amount=1');
+        React.useEffect(() => {
+          fetch(url)
+          .then(response => response.json()) 
+          .then(responseData => {
+            console.log(responseData);
+            setRepos(responseData.items); // Has to choose the zero as the first placement in the JSON-listing.
+            // setUrl(responseData.url);
+            setState(true);
+          });
+        }, []);
+
+        if (!isWaiting) {
+          return <p>Loading your question...</p>
+        }
+
+        const itemDetails = repos.map((item) => 
+            <tr key={item.id}>
+              <td>{item.full_name}</td>
+              <td>{item.html_url}</td>
+            </tr>
+         )
+
+
+        return (
+            <div>
+              <h2>GitHub repos</h2>
+              <table>
+                <tbody>
+                  <tr><th>GitHub name</th><th>GitHub repo URL</th></tr>
+                  {itemDetails}
+                </tbody>
+              </table>
+            </div>
+          );
+      };
+
+      ReactDOM.render(<GetRepos />, document.getElementById("datahere"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!-- Fetching a question with React. -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React NASA APOD</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id="datahere"></div>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script> <!-- // sources -->
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+      function GetQuestion() {
+        const [question, setQuestion] = React.useState('');
+        const [url, setUrl] = React.useState('https://opentdb.com/api.php?amount=1');
+        const [isWaiting, setState] = React.useState(false);
+        
+        // setUrl('https://opentdb.com/api.php?amount=1');
+        React.useEffect(() => {
+          fetch(url)
+          .then(response => response.json()) 
+          .then(responseData => {
+            console.log(responseData);
+            setQuestion(responseData.results[0].question); // Has to choose the zero as the first placement in the JSON-listing.
+            // setUrl(responseData.url);
+            setState(true);
+          });
+        }, []);
+
+        const showNewQuestion = () => {
+            //window.alert('LOL');
+            location.reload();
+            //React.useEffect(); Not used to making Fetch-functions like this... Just opted to reload the page.
+        }
+
+        if (!isWaiting) {
+          return <p>Loading your question...</p>
+        }
+
+        /*const showQuestion = () => {
+            return (
+                <div>
+                    <p>Your random quostion of the day: {question}</p>
+                </div>
+
+            );
+        } */
+
+        return (
+          <div>
+            <p>Press the button to get a random question: </p>
+            <button onClick = {() => showNewQuestion()}> Get a question </ button>
+            <p> {question} </p>
+          </div>
+        );
+      };
+
+      ReactDOM.render(<GetQuestion />, document.getElementById("datahere"));
+    </script>
+  </body>
+</html>
